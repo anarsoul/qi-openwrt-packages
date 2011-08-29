@@ -4,16 +4,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netsurf
-PKG_VERSION:=r10948
+PKG_VERSION:=2.7
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.netsurf-browser.org/downloads/development/
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
+PKG_SOURCE_URL:=http://www.netsurf-browser.org/downloads/releases/
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/nls.mk
 
 define Package/netsurf
 	MAINTAINER:="Xiangfu Liu" <xiangfu@sharism.cc>
@@ -22,7 +23,7 @@ define Package/netsurf
 	CATEGORY:=Network
 	TITLE:=netsurf
 	URL:=http://www.netsurf-browser.org/
-	DEPENDS:=+libsdl +libcss +libhubbub +libparserutils +libnsfb +libxml2 +libcurl +libfreetype
+	DEPENDS:=+libsdl +libcss +libhubbub +libparserutils +libnsfb +libxml2 +libcurl +libfreetype $(ICONV_DEPENDS)
 endef
 
 define Package/netsurf/description
@@ -33,12 +34,19 @@ MAKE_FLAGS += "TARGET=framebuffer" \
 			  "PREFIX=/usr"
 
 TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/SDL
-TARGET_LDFLAGS += -Wl,-rpath-link=$(STAGING_DIR)/usr/lib
+TARGET_LDFLAGS += -liconv -Wl,-rpath-link=$(STAGING_DIR)/usr/lib
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(CP) $(FILES_DIR)/Makefile.config $(PKG_BUILD_DIR)
 endef
+
+define Build/Compile
+	$(MAKE_VARS) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/$(MAKE_PATH) \
+		$(MAKE_FLAGS)
+endef
+
 
 define Package/netsurf/install
 	$(INSTALL_DIR) \
