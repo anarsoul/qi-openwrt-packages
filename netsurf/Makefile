@@ -23,7 +23,7 @@ define Package/netsurf
 	CATEGORY:=Network
 	TITLE:=netsurf
 	URL:=http://www.netsurf-browser.org/
-	DEPENDS:=+libsdl +libcss +libhubbub +libparserutils +libnsfb +libxml2 +libcurl +libfreetype $(ICONV_DEPENDS)
+	DEPENDS:=+libsdl +libcss +libhubbub +libparserutils +libnsfb +libxml2 +libcurl +libfreetype +liberation-fonts-ttf $(ICONV_DEPENDS)
 endef
 
 define Package/netsurf/description
@@ -59,6 +59,9 @@ define Package/netsurf/install
 	$(INSTALL_DATA) \
 		$(PKG_INSTALL_DIR)/usr/share/netsurf/* \
 		$(1)/usr/share/netsurf/
+
+	$(CP) $(FILES_DIR)/Choices $(1)/usr/share/netsurf/
+	$(CP) $(FILES_DIR)/Cookies $(1)/usr/share/netsurf/
 endef
 
 $(eval $(call BuildPackage,netsurf))
