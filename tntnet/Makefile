@@ -56,5 +56,6 @@ define Package/tntnet/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libtntnet.so* $(1)/usr/lib/
 endef
 
+$(eval $(call RequireCommand,zip,$(PKG_NAME) requires zip on the host system.))
 $(eval $(call HostBuild))
 $(eval $(call BuildPackage,tntnet))
