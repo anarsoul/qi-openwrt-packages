@@ -1,6 +1,6 @@
 #!/bin/bash
 # version of me
-__VERSION__="2011-08-19"
+__VERSION__="2011-12-12"
 
 # use 'http' to download and flash images, use 'file' to flash images present in the <WORKING_DIR>
 PROTOCOL="http"
@@ -29,7 +29,7 @@ while getopts d:t:v:l:hbkr OPTIONS
 do
     case $OPTIONS in
     d)
-	BASE_URL_HTTP="http://fidelio.qi-hardware.com/~xiangfu/compile-log/"
+	BASE_URL_HTTP="http://fidelio.qi-hardware.com/~xiangfu/build-nanonote/"
         VERSION=$OPTARG # override version by first argument
         WORKING_DIR=${VERSION}
 	;;
@@ -172,6 +172,11 @@ if [ "$PROTOCOL" == "http" ]; then
     MD5SUMS_SERVER=$(wget -O - ${BASE_URL_HTTP}/${VERSION}/md5sums 2> /dev/null | grep -E "(${LOADER}|${KERNEL}|${ROOTFS})" | sort)
     [ "${MD5SUMS_SERVER}" ] || abort "can't fetch files from server"
     
+    if [ ! -f "${WORKING_DIR}/${ROOTFS}" ] && [ -f "${WORKING_DIR}/${ROOTFS}.bz2" ] ; then
+        log "found .ubi.bz2 rootfs, decompressing to .ubi ..."
+        (cd "${WORKING_DIR}"; bzip2 -d "${ROOTFS}.bz2")
+    fi
+
     MD5SUMS_LOCAL=$( (cd "${WORKING_DIR}" ; md5sum --binary "${LOADER}" "${KERNEL}" "${ROOTFS}" 2> /dev/null) | sort )
 
     if [ "${MD5SUMS_SERVER}" == "${MD5SUMS_LOCAL}" ]; then
@@ -214,6 +219,10 @@ fi
 log "booting device..."
 usbboot -c "boot" >> "${LOG_FILE}" || abort "can't boot device - xburst-tools setup correctly? device in boot-mode? device connected?"
 
+if [ "$ALL" == "TRUE" ]; then
+	log "clean bootloader env data ..."
+	usbboot -c "nerase 2 2 0 0" >> "${LOG_FILE}" 2>&1
+fi
 if [ "$B" == "TRUE" ]; then
 	log "flashing bootloader..."
 	progress_prepare
@@ -250,7 +259,3 @@ if [ "$ALL" == "TRUE" ]; then
 fi
 
 log "done"
-
-########## ChangeLog ###############
-### 2011-06-07
- # using -O in wget
