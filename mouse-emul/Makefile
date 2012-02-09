@@ -25,7 +25,7 @@ define Package/mouse-emul
 endef
 
 define Package/mouse-emul/description
-	Mouse emulator for the ZipIt Z2, by anarsoul
+	Generic mouse emulator
 endef
 
 MAKE_FLAGS += \
