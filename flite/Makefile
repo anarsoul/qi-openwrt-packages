@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=flite
-PKG_VERSION:=1.4
+PKG_VERSION:=1.5.4
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-release.tar.bz2
-PKG_SOURCE_URL:=http://www.speech.cs.cmu.edu/flite/packed/flite-1.4/
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-current.tar.bz2
+PKG_SOURCE_URL:=http://festvox.org/bard/
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)-release/
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)-current
 PKG_RELEASE:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -28,10 +28,19 @@ define Package/flite/description
   a small, fast run-time synthesis engine
 endef
 
+CONFIGURE_ARGS += --with-langvox=ben
+
 define Package/flite/install
 	$(INSTALL_DIR) $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/flite $(1)/usr/bin/
 endef
 
-$(eval $(call BuildPackage,flite))
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include $(1)/usr/lib
 
+	$(CP) $(PKG_BUILD_DIR)/include/*.h $(1)/usr/include
+	$(CP) $(PKG_BUILD_DIR)/build/mipsel-linux-gnu/lib/*.a \
+		$(1)/usr/lib/
+endef
+
+$(eval $(call BuildPackage,flite))
