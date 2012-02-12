@@ -21,7 +21,7 @@ define Package/golded
     SECTION:=utilities
     CATEGORY:=Utilities
     URL:=http://sourceforge.net/projects/golded-plus
-    DEPENDS:=+libncursesw
+    DEPENDS:=+libncurses
 endef
 
 define Build/Prepare

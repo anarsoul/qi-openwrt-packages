@@ -21,7 +21,7 @@ include $(INCLUDE_DIR)/nls.mk
 define Package/libpurple
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:=+libxml2 +libgnutls +libncursesw +glib2 $(ICONV_DEPENDS) $(INTL_DEPENDS)
+  DEPENDS:=+libxml2 +libgnutls +libncurses +glib2 $(ICONV_DEPENDS) $(INTL_DEPENDS)
   TITLE:=libpurple is intended to be the core of an IM program
   URL:=http://developer.pidgin.im
 endef
