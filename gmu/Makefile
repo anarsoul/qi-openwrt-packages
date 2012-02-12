@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gmu
-PKG_VERSION:=0.7.2
-PKG_RELEASE:=3
+PKG_VERSION:=0.8.0BETA1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://wejp.k.vu/files/
-PKG_MD5SUM:=dea481ab0f8f9f10b38aa21605dbb18d
+PKG_MD5SUM:=a1a3d346802f3877b4c739b3c65225d6
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -33,11 +33,11 @@ define Package/gmu/description
   file browser and a playlist editor/viewer.
 endef
 
-MAKE_VARS += TARGET=nanonote $(if $(CONFIG_BUILD_PATENTED),MORE_DECODERS="decoders/mpg123.so")
-TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/SDL
-TARGET_LDFLAGS+= \
-	-Wl,-rpath-link=$(STAGING_DIR)/usr/lib \
-	-L$(STAGING_DIR)/usr/lib/SDL \
+MAKE_VARS += CC='$(TARGET_CC)' CXX='$(TARGET_CXX)' STRIP='$(TARGET_STRIP)' \
+	CFLAGS='$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include/SDL -DFILE_HW_H="\"hw_zipit-z2.h\""' \
+	LFLAGS='$(TARGET_LDFLAGS) -Wl,-rpath-link=$(STAGING_DIR)/usr/lib -L$(STAGING_DIR)/usr/lib/SDL -lSDL -lpthread -lm -ldl -lz -lgcc -Wl,-export-dynamic' \
+	PREFIX=/usr \
+	TARGET=zipit-z2
 
 define Package/gmu/install
 	$(INSTALL_DIR) \
