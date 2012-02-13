@@ -16,7 +16,7 @@ define Package/wordgrinder
 	TITLE:=A word processor for processing words
 	URL:=http://wordgrinder.sourceforge.net/
 	SUBMENU:=Editors
-	DEPENDS:=+libncursesw +lua +luafilesystem
+	DEPENDS:=+libncurses +lua +luafilesystem
 endef
 
 define Package/wordgrinder/description

@@ -16,7 +16,7 @@ include $(INCLUDE_DIR)/nls.mk
 define Package/snownews
 	SECTION:=utils
 	CATEGORY:=Utilities
-	DEPENDS:=+libncursesw +libxml2 +libopenssl +zlib $(ICONV_DEPENDS) $(INTL_DEPENDS) +libcharset
+	DEPENDS:=+libncurses +libxml2 +libopenssl +zlib $(ICONV_DEPENDS) $(INTL_DEPENDS) +libcharset
 	TITLE:=SnowNews
 	URL:=http://kiza.kcore.de/software/snownews/
 endef

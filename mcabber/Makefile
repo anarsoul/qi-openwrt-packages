@@ -21,7 +21,7 @@ define Package/mcabber
 	SECTION:=network
 	CATEGORY:=Network
 	TITLE:=Mcabber
-	DEPENDS:=+libncursesw +libreadline $(INTL_DEPENDS) $(ICONV_DEPENDS) +libcharset +libopenssl
+	DEPENDS:=+libncurses +libreadline $(INTL_DEPENDS) $(ICONV_DEPENDS) +libcharset +libopenssl
 	URL:=http://mcabber.com/
 endef
 

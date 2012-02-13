@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gmenu2x
-PKG_VERSION:=20111111
-PKG_REV:=1f955e523358796189db503e624788d5337c15a3
+PKG_VERSION:=20120209
+PKG_REV:=c913ceab59882d5d8c8a1e6225c5373e43f31368
 PKG_RELEASE:=1
 PKG_INSTALL:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
-PKG_SOURCE_URL:=git://projects.qi-hardware.com/gmenu2x.git
+PKG_SOURCE_URL:=git://github.com/anarsoul/gmenu2x-zipit.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_REV)
@@ -28,7 +28,7 @@ TARGET_CFLAGS+= \
 	-I$(STAGING_DIR)/usr/include/SDL \
 	-I$(STAGING_DIR)/usr/include/google/sparsehash \
 	-I$(PKG_BUILD_DIR)/src/tinyxml \
-	-DTIXML_USE_STL -DTARGET_GP2X -O3 -msoft-float -fomit-frame-pointer \
+	-DTIXML_USE_STL -O3 -msoft-float -fomit-frame-pointer \
 	-ffast-math -funroll-loops -Wall -Wno-unknown-pragmas -Wno-format \
 
 TARGET_CPPFLAGS+= \
@@ -53,7 +53,7 @@ endef
 define Build/Configure
 	( cd $(PKG_BUILD_DIR); ./autogen.sh );
 	$(call Build/Configure/Default,\
-		--enable-platform=nanonote)
+		--enable-platform=zipitz2)
 endef
 
 define Package/gmenu2x/install
