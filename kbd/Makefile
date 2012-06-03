@@ -8,8 +8,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=kbd
-PKG_RELEASE:=2
-PKG_VERSION:=1.15.1
+PKG_RELEASE:=1
+PKG_VERSION:=1.15.3
 PKG_SOURCE_URL:=ftp://ftp.kernel.org/pub/linux/utils/kbd
 PKG_SOURCE:=kbd-$(PKG_VERSION).tar.gz
 
